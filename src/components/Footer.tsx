@@ -1,9 +1,9 @@
-import { Triangle } from "lucide-react";
+import { Triangle, Twitter, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
-    <footer className="border-t border-border py-12">
+    <footer className="border-t border-border py-12 bg-card/50">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
@@ -11,25 +11,48 @@ export const Footer = () => {
               <Triangle className="w-6 h-6 text-primary" fill="currentColor" />
               <span className="text-lg font-bold text-foreground">AXIOM</span>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mb-4">
               The gateway to DeFi. Trade smarter, faster, safer.
             </p>
+            <div className="flex items-center gap-3">
+              <a 
+                href="https://x.com/axiomexchange" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-muted hover:bg-primary transition-colors flex items-center justify-center"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-4 h-4" />
+              </a>
+              <a 
+                href="https://discord.gg/axiomtrade" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-muted hover:bg-primary transition-colors flex items-center justify-center"
+                aria-label="Discord"
+              >
+                <MessageCircle className="w-4 h-4" />
+              </a>
+            </div>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">Platform</h3>
             <div className="flex flex-col gap-2">
-              <Link to="/discover" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/discover" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Discover
               </Link>
-              <Link to="/trading" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/trading" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Trading
               </Link>
-              <Link to="/perpetuals" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/perpetuals" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Perpetuals
               </Link>
-              <Link to="/yield" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/yield" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Yield
+              </Link>
+              <Link to="/portfolio" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Portfolio
               </Link>
             </div>
           </div>
@@ -37,14 +60,22 @@ export const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Company</h3>
             <div className="flex flex-col gap-2">
-              <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 About
               </Link>
-              <Link to="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a 
+                href="https://docs.axiom.trade/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
                 Docs
-              </Link>
-              <Link to="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              </a>
+              <Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Contact
+              </Link>
+              <Link to="/leaderboard" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Leaderboard
               </Link>
             </div>
           </div>
@@ -52,10 +83,10 @@ export const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Legal</h3>
             <div className="flex flex-col gap-2">
-              <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Terms of Service
               </Link>
             </div>

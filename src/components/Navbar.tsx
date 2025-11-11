@@ -22,8 +22,8 @@ export const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <Triangle className="w-6 h-6 text-primary" fill="currentColor" />
+          <Link to="/" className="flex items-center gap-2 group">
+            <Triangle className="w-6 h-6 text-primary group-hover:rotate-180 transition-transform duration-500" fill="currentColor" />
             <span className="text-xl font-bold text-foreground">AXIOM</span>
           </Link>
 
@@ -33,26 +33,32 @@ export const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
+                className={`text-sm font-medium transition-colors hover:text-primary relative ${
                   location.pathname === link.path
                     ? "text-primary"
                     : "text-muted-foreground"
                 }`}
               >
                 {link.name}
+                {location.pathname === link.path && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                )}
               </Link>
             ))}
           </div>
 
           <div className="flex items-center gap-4">
-            <Button className="hidden sm:flex bg-primary hover:bg-primary/90 text-primary-foreground rounded-full">
-              Start Trading
-            </Button>
+            <Link to="/discover?chain=sol">
+              <Button className="hidden sm:flex bg-primary hover:bg-primary/90 text-primary-foreground rounded-full">
+                Launch App
+              </Button>
+            </Link>
 
             {/* Mobile Menu Button */}
             <button
               className="lg:hidden text-foreground"
               onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -77,9 +83,11 @@ export const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full mt-2">
-                Start Trading
-              </Button>
+              <Link to="/discover?chain=sol">
+                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full mt-2">
+                  Launch App
+                </Button>
+              </Link>
             </div>
           </div>
         )}

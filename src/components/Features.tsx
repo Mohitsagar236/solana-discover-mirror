@@ -27,12 +27,13 @@ const features = [
 export const Features = () => {
   return (
     <section className="py-24 relative overflow-hidden">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
+      <div className="absolute inset-0 bg-gradient-to-b from-card to-background" />
+      <div className="container relative z-10 mx-auto px-4">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 animate-in fade-in duration-700">
           Advanced Features to{" "}
           <span className="text-primary">Streamline</span> Your Trading
         </h2>
-        <p className="text-xl text-muted-foreground text-center mb-16">
+        <p className="text-xl text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
           From wallet tracking to real-time analytics, we've got you covered.
         </p>
         
@@ -40,9 +41,14 @@ export const Features = () => {
           {features.map((feature, index) => (
             <Card
               key={index}
-              className="bg-card border-border p-6 hover:border-primary transition-all duration-300 group"
+              className="bg-card border-border p-6 hover:border-primary hover:shadow-lg transition-all duration-300 group cursor-pointer"
+              style={{
+                animationDelay: `${index * 100}ms`,
+              }}
             >
-              <feature.icon className="w-10 h-10 text-primary mb-4 group-hover:scale-110 transition-transform" />
+              <div className="bg-primary/10 w-14 h-14 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <feature.icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform" />
+              </div>
               <h3 className="text-lg font-semibold mb-2 text-foreground">
                 {feature.title}
               </h3>

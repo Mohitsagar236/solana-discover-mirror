@@ -3,22 +3,37 @@ import { Footer } from "@/components/Footer";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown, Search, Star, Flame } from "lucide-react";
 import { useState } from "react";
 
 const tokens = [
-  { name: "Solana", symbol: "SOL", price: "$142.35", change: "+5.23%", volume: "$1.2B", mcap: "$65B", positive: true, trending: true },
-  { name: "Bonk", symbol: "BONK", price: "$0.000023", change: "+12.34%", volume: "$45M", mcap: "$1.5B", positive: true, trending: true },
-  { name: "Jupiter", symbol: "JUP", price: "$0.85", change: "+8.45%", volume: "$120M", mcap: "$850M", positive: true, trending: false },
-  { name: "Pyth Network", symbol: "PYTH", price: "$0.42", change: "-2.15%", volume: "$80M", mcap: "$1.1B", positive: false, trending: false },
-  { name: "Jito", symbol: "JTO", price: "$2.15", change: "+15.67%", volume: "$95M", mcap: "$2.3B", positive: true, trending: true },
-  { name: "Render", symbol: "RNDR", price: "$8.45", change: "-1.23%", volume: "$200M", mcap: "$3.2B", positive: false, trending: false },
-  { name: "Helium", symbol: "HNT", price: "$4.32", change: "+3.45%", volume: "$65M", mcap: "$750M", positive: true, trending: false },
-  { name: "Raydium", symbol: "RAY", price: "$1.87", change: "+6.78%", volume: "$150M", mcap: "$450M", positive: true, trending: true },
+  { name: "Solana", symbol: "SOL", price: "$142.35", change: "+5.23%", volume: "$1.2B", mcap: "$65B", positive: true, trending: true, category: "L1" },
+  { name: "Bonk", symbol: "BONK", price: "$0.000023", change: "+12.34%", volume: "$45M", mcap: "$1.5B", positive: true, trending: true, category: "Memes" },
+  { name: "Jupiter", symbol: "JUP", price: "$0.85", change: "+8.45%", volume: "$120M", mcap: "$850M", positive: true, trending: false, category: "DeFi" },
+  { name: "Pyth Network", symbol: "PYTH", price: "$0.42", change: "-2.15%", volume: "$80M", mcap: "$1.1B", positive: false, trending: false, category: "DeFi" },
+  { name: "Jito", symbol: "JTO", price: "$2.15", change: "+15.67%", volume: "$95M", mcap: "$2.3B", positive: true, trending: true, category: "DeFi" },
+  { name: "Render", symbol: "RNDR", price: "$8.45", change: "-1.23%", volume: "$200M", mcap: "$3.2B", positive: false, trending: false, category: "AI" },
+  { name: "Helium", symbol: "HNT", price: "$4.32", change: "+3.45%", volume: "$65M", mcap: "$750M", positive: true, trending: false, category: "Infrastructure" },
+  { name: "Raydium", symbol: "RAY", price: "$1.87", change: "+6.78%", volume: "$150M", mcap: "$450M", positive: true, trending: true, category: "DeFi" },
+  { name: "Orca", symbol: "ORCA", price: "$3.24", change: "+4.12%", volume: "$35M", mcap: "$280M", positive: true, trending: false, category: "DeFi" },
+  { name: "Marinade", symbol: "MNDE", price: "$0.18", change: "-0.85%", volume: "$12M", mcap: "$45M", positive: false, trending: false, category: "DeFi" },
 ];
+
+const categories = ["All", "Trending", "DeFi", "Gaming", "NFTs", "Memes", "AI", "Infrastructure"];
 
 const Discover = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredTokens = tokens.filter(token => {
+    const matchesSearch = token.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                         token.symbol.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = activeCategory === "All" || 
+                           (activeCategory === "Trending" && token.trending) ||
+                           token.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -39,7 +54,7 @@ const Discover = () => {
             <div className="relative max-w-2xl">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
-                placeholder="Search tokens..."
+                placeholder="Search tokens by name or symbol..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-12 bg-card border-border h-14 text-lg"
@@ -47,16 +62,18 @@ const Discover = () => {
             </div>
           </div>
 
-          <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
-            <Button variant="default" className="rounded-full">All</Button>
-            <Button variant="outline" className="rounded-full">
-              <Flame className="w-4 h-4 mr-2" />
-              Trending
-            </Button>
-            <Button variant="outline" className="rounded-full">DeFi</Button>
-            <Button variant="outline" className="rounded-full">Gaming</Button>
-            <Button variant="outline" className="rounded-full">NFTs</Button>
-            <Button variant="outline" className="rounded-full">Memes</Button>
+          <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={activeCategory === category ? "default" : "outline"}
+                className="rounded-full whitespace-nowrap"
+                onClick={() => setActiveCategory(category)}
+              >
+                {category === "Trending" && <Flame className="w-4 h-4 mr-2" />}
+                {category}
+              </Button>
+            ))}
           </div>
 
           <Card className="bg-card border-border overflow-hidden">
@@ -70,56 +87,70 @@ const Discover = () => {
                     <th className="text-left p-4 font-semibold text-sm text-muted-foreground">24h Change</th>
                     <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Volume</th>
                     <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Market Cap</th>
+                    <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Category</th>
                     <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {tokens.map((token, index) => (
-                    <tr
-                      key={index}
-                      className="border-t border-border hover:bg-muted/10 transition-colors"
-                    >
-                      <td className="p-4">
-                        <div className="flex items-center gap-2">
-                          <span className="text-muted-foreground">{index + 1}</span>
-                          {token.trending && <Flame className="w-4 h-4 text-orange-500" />}
-                        </div>
-                      </td>
-                      <td className="p-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                            <span className="text-sm font-bold">{token.symbol[0]}</span>
+                  {filteredTokens.length > 0 ? (
+                    filteredTokens.map((token, index) => (
+                      <tr
+                        key={index}
+                        className="border-t border-border hover:bg-muted/10 transition-colors"
+                      >
+                        <td className="p-4">
+                          <div className="flex items-center gap-2">
+                            <span className="text-muted-foreground">{index + 1}</span>
+                            {token.trending && <Flame className="w-4 h-4 text-orange-500" />}
                           </div>
-                          <div>
-                            <p className="font-semibold">{token.name}</p>
-                            <p className="text-sm text-muted-foreground">{token.symbol}</p>
+                        </td>
+                        <td className="p-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                              <span className="text-sm font-bold text-primary">{token.symbol[0]}</span>
+                            </div>
+                            <div>
+                              <p className="font-semibold">{token.name}</p>
+                              <p className="text-sm text-muted-foreground">{token.symbol}</p>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="p-4 font-semibold">{token.price}</td>
-                      <td className="p-4">
-                        <div
-                          className={`flex items-center gap-1 ${
-                            token.positive ? "text-green-500" : "text-red-500"
-                          }`}
-                        >
-                          {token.positive ? (
-                            <TrendingUp className="w-4 h-4" />
-                          ) : (
-                            <TrendingDown className="w-4 h-4" />
-                          )}
-                          <span className="font-semibold">{token.change}</span>
-                        </div>
-                      </td>
-                      <td className="p-4 text-muted-foreground">{token.volume}</td>
-                      <td className="p-4 text-muted-foreground">{token.mcap}</td>
-                      <td className="p-4">
-                        <Button size="sm" className="bg-primary hover:bg-primary/90">
-                          Trade
-                        </Button>
+                        </td>
+                        <td className="p-4 font-semibold">{token.price}</td>
+                        <td className="p-4">
+                          <div
+                            className={`flex items-center gap-1 ${
+                              token.positive ? "text-green-500" : "text-red-500"
+                            }`}
+                          >
+                            {token.positive ? (
+                              <TrendingUp className="w-4 h-4" />
+                            ) : (
+                              <TrendingDown className="w-4 h-4" />
+                            )}
+                            <span className="font-semibold">{token.change}</span>
+                          </div>
+                        </td>
+                        <td className="p-4 text-muted-foreground">{token.volume}</td>
+                        <td className="p-4 text-muted-foreground">{token.mcap}</td>
+                        <td className="p-4">
+                          <Badge variant="secondary" className="rounded-full">
+                            {token.category}
+                          </Badge>
+                        </td>
+                        <td className="p-4">
+                          <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full">
+                            Trade
+                          </Button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={8} className="p-8 text-center text-muted-foreground">
+                        No tokens found matching your search.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
