@@ -9,11 +9,13 @@ export const Navbar = () => {
 
   const links = [
     { name: "Home", path: "/" },
+    { name: "Discover", path: "/discover" },
     { name: "Trading", path: "/trading" },
     { name: "Perpetuals", path: "/perpetuals" },
     { name: "Yield", path: "/yield" },
+    { name: "Portfolio", path: "/portfolio" },
     { name: "Rewards", path: "/rewards" },
-    { name: "Contact", path: "/contact" },
+    { name: "Leaderboard", path: "/leaderboard" },
   ];
 
   return (
@@ -26,7 +28,7 @@ export const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             {links.map((link) => (
               <Link
                 key={link.path}
