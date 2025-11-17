@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static-build", "config": { "distDir": "dist" } }
+  ],
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://YOUR-BACKEND-DOMAIN/api/$1" }
+  ],
+  "env": {
+    "VITE_API_URL": "/api",
+    "VITE_WS_URL": "wss://YOUR-WEBSOCKET-DOMAIN"
+  },
+  "github": { "silent": true }
+}

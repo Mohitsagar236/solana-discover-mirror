@@ -1,38 +1,92 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Card } from "@/components/ui/card";
-import { Book, Code, Zap, Shield, Users, ExternalLink } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Book, Code, Zap, Shield, Users, ExternalLink, Search, FileText, HelpCircle, TrendingUp } from "lucide-react";
 
 const docSections = [
   {
     icon: Book,
     title: "Getting Started",
     description: "Learn the basics of trading on Axiom",
-    links: ["Quick Start Guide", "Creating Your Wallet", "First Trade"],
+    badge: "Beginner",
+    links: [
+      "Quick Start Guide",
+      "Creating Your Wallet",
+      "Making Your First Trade",
+      "Understanding Fees",
+      "Depositing & Withdrawing"
+    ],
+  },
+  {
+    icon: TrendingUp,
+    title: "Trading Features",
+    description: "Advanced trading tools and strategies",
+    badge: "Intermediate",
+    links: [
+      "Spot Trading",
+      "Perpetual Futures",
+      "Limit & Market Orders",
+      "Stop Loss Orders",
+      "Auto-Strategies",
+      "Migration Sniper"
+    ],
   },
   {
     icon: Zap,
-    title: "Trading Features",
-    description: "Advanced trading tools and strategies",
-    links: ["Limit Orders", "Auto-Strategies", "Migration Sniper"],
+    title: "Yield & Staking",
+    description: "Earn passive income on your assets",
+    badge: "Intermediate",
+    links: [
+      "Yield Farming Guide",
+      "Staking SOL",
+      "Liquidity Provision",
+      "Risk Management",
+      "APY Calculations"
+    ],
   },
   {
     icon: Shield,
     title: "Security",
     description: "Keep your funds safe",
-    links: ["Wallet Security", "Non-Custodial Infrastructure", "Best Practices"],
+    badge: "Essential",
+    links: [
+      "Wallet Security Best Practices",
+      "Non-Custodial Infrastructure",
+      "Two-Factor Authentication",
+      "Recovery Options",
+      "Common Scams to Avoid"
+    ],
   },
   {
     icon: Code,
     title: "API Documentation",
     description: "Integrate with Axiom programmatically",
-    links: ["REST API", "WebSocket API", "SDK"],
+    badge: "Advanced",
+    links: [
+      "REST API Overview",
+      "WebSocket API",
+      "Authentication",
+      "Rate Limits",
+      "TypeScript SDK",
+      "Code Examples"
+    ],
   },
   {
-    icon: Users,
-    title: "Community",
-    description: "Join the Axiom community",
-    links: ["Discord", "Twitter", "Telegram"],
+    icon: HelpCircle,
+    title: "FAQs",
+    description: "Frequently asked questions",
+    badge: "All Levels",
+    links: [
+      "Account Questions",
+      "Trading Questions",
+      "Fee Structure",
+      "Withdrawal Times",
+      "Supported Tokens",
+      "Platform Limits"
+    ],
   },
 ];
 
@@ -47,10 +101,46 @@ const Docs = () => {
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               <span className="text-primary">Documentation</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
               Everything you need to know about trading on Axiom
             </p>
+            <div className="max-w-2xl mx-auto">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Input
+                  placeholder="Search documentation..."
+                  className="pl-12 bg-card border-border h-12 text-lg"
+                />
+              </div>
+            </div>
           </div>
+
+          <Card className="bg-card border-border p-8 mb-12">
+            <h2 className="text-2xl font-bold mb-6">Popular Guides</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <a href="#" className="p-4 bg-muted/20 rounded-lg hover:bg-muted/30 transition-colors flex items-start gap-3">
+                <FileText className="w-5 h-5 text-primary mt-1" />
+                <div>
+                  <p className="font-semibold mb-1">How to Make Your First Trade</p>
+                  <p className="text-sm text-muted-foreground">Step-by-step guide for beginners</p>
+                </div>
+              </a>
+              <a href="#" className="p-4 bg-muted/20 rounded-lg hover:bg-muted/30 transition-colors flex items-start gap-3">
+                <FileText className="w-5 h-5 text-primary mt-1" />
+                <div>
+                  <p className="font-semibold mb-1">Understanding Trading Fees</p>
+                  <p className="text-sm text-muted-foreground">Complete fee breakdown</p>
+                </div>
+              </a>
+              <a href="#" className="p-4 bg-muted/20 rounded-lg hover:bg-muted/30 transition-colors flex items-start gap-3">
+                <FileText className="w-5 h-5 text-primary mt-1" />
+                <div>
+                  <p className="font-semibold mb-1">Wallet Security Best Practices</p>
+                  <p className="text-sm text-muted-foreground">Keep your funds safe</p>
+                </div>
+              </a>
+            </div>
+          </Card>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {docSections.map((section, index) => (
@@ -58,20 +148,23 @@ const Docs = () => {
                 key={index}
                 className="bg-card border-border p-6 hover:border-primary transition-all"
               >
-                <div className="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                  <section.icon className="w-6 h-6 text-primary" />
+                <div className="flex items-start justify-between mb-4">
+                  <div className="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center">
+                    <section.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <Badge variant="secondary" className="text-xs">{section.badge}</Badge>
                 </div>
                 <h3 className="text-xl font-bold mb-2">{section.title}</h3>
-                <p className="text-muted-foreground mb-4">{section.description}</p>
+                <p className="text-muted-foreground mb-4 text-sm">{section.description}</p>
                 <ul className="space-y-2">
                   {section.links.map((link, linkIndex) => (
                     <li key={linkIndex}>
                       <a
                         href="#"
-                        className="text-sm text-primary hover:text-primary/80 flex items-center gap-1"
+                        className="text-sm text-primary hover:text-primary/80 flex items-center gap-2 hover:translate-x-1 transition-transform"
                       >
+                        <ExternalLink className="w-3 h-3 flex-shrink-0" />
                         {link}
-                        <ExternalLink className="w-3 h-3" />
                       </a>
                     </li>
                   ))}

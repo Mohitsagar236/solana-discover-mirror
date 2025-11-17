@@ -1,0 +1,40 @@
+// Shared token data for the application
+export const tokenData = [
+  { name: "Solana", symbol: "SOL", price: "$142.35", change: "+5.23%", volume: "$1.2B", mcap: "$65B", positive: true, trending: true, category: "L1", watchlisted: false },
+  { name: "Bonk", symbol: "BONK", price: "$0.000023", change: "+12.34%", volume: "$45M", mcap: "$1.5B", positive: true, trending: true, category: "Memes", watchlisted: false },
+  { name: "Jupiter", symbol: "JUP", price: "$0.85", change: "+8.45%", volume: "$120M", mcap: "$850M", positive: true, trending: true, category: "DeFi", watchlisted: false },
+  { name: "Pyth Network", symbol: "PYTH", price: "$0.42", change: "-2.15%", volume: "$80M", mcap: "$1.1B", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Jito", symbol: "JTO", price: "$2.15", change: "+15.67%", volume: "$95M", mcap: "$2.3B", positive: true, trending: true, category: "DeFi", watchlisted: false },
+  { name: "Render", symbol: "RNDR", price: "$8.45", change: "-1.23%", volume: "$200M", mcap: "$3.2B", positive: false, trending: false, category: "AI", watchlisted: false },
+  { name: "Helium", symbol: "HNT", price: "$4.32", change: "+3.45%", volume: "$65M", mcap: "$750M", positive: true, trending: false, category: "Infrastructure", watchlisted: false },
+  { name: "Raydium", symbol: "RAY", price: "$1.87", change: "+6.78%", volume: "$150M", mcap: "$450M", positive: true, trending: true, category: "DeFi", watchlisted: false },
+  { name: "Orca", symbol: "ORCA", price: "$3.24", change: "+4.12%", volume: "$35M", mcap: "$280M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Marinade", symbol: "MNDE", price: "$0.18", change: "-0.85%", volume: "$12M", mcap: "$45M", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "WormHole", symbol: "W", price: "$0.35", change: "+2.34%", volume: "$28M", mcap: "$420M", positive: true, trending: false, category: "Infrastructure", watchlisted: false },
+  { name: "Kamino", symbol: "KMNO", price: "$0.12", change: "+9.12%", volume: "$18M", mcap: "$180M", positive: true, trending: true, category: "DeFi", watchlisted: false },
+  { name: "Tensor", symbol: "TNSR", price: "$0.65", change: "-3.45%", volume: "$42M", mcap: "$325M", positive: false, trending: false, category: "NFTs", watchlisted: false },
+  { name: "Drift Protocol", symbol: "DRIFT", price: "$0.28", change: "+5.67%", volume: "$15M", mcap: "$98M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Magic Eden", symbol: "ME", price: "$0.45", change: "+1.23%", volume: "$22M", mcap: "$215M", positive: true, trending: false, category: "NFTs", watchlisted: false },
+  { name: "Parcl", symbol: "PRCL", price: "$0.38", change: "+7.89%", volume: "$9M", mcap: "$75M", positive: true, trending: true, category: "DeFi", watchlisted: false },
+  { name: "Grass", symbol: "GRASS", price: "$0.015", change: "+18.45%", volume: "$32M", mcap: "$125M", positive: true, trending: true, category: "AI", watchlisted: false },
+  { name: "Sanctum", symbol: "CLOUD", price: "$0.22", change: "+4.56%", volume: "$11M", mcap: "$68M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Marginfi", symbol: "MRGN", price: "$0.08", change: "-1.12%", volume: "$7M", mcap: "$42M", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Zeta Markets", symbol: "ZETA", price: "$0.19", change: "+3.21%", volume: "$13M", mcap: "$55M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Phoenix", symbol: "PHNX", price: "$0.05", change: "+11.23%", volume: "$6M", mcap: "$28M", positive: true, trending: true, category: "DeFi", watchlisted: false },
+  { name: "Audius", symbol: "AUDIO", price: "$0.16", change: "-2.34%", volume: "$19M", mcap: "$145M", positive: false, trending: false, category: "Entertainment", watchlisted: false },
+  { name: "Star Atlas", symbol: "ATLAS", price: "$0.0042", change: "+6.78%", volume: "$4M", mcap: "$38M", positive: true, trending: false, category: "Gaming", watchlisted: false },
+  { name: "Genopets", symbol: "GENE", price: "$0.09", change: "-0.45%", volume: "$2.5M", mcap: "$22M", positive: false, trending: false, category: "Gaming", watchlisted: false },
+  { name: "Step Finance", symbol: "STEP", price: "$0.03", change: "+2.11%", volume: "$3M", mcap: "$12M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Saber", symbol: "SBR", price: "$0.002", change: "-1.89%", volume: "$1.8M", mcap: "$8M", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Solend", symbol: "SLND", price: "$0.14", change: "+3.45%", volume: "$5M", mcap: "$18M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Port Finance", symbol: "PORT", price: "$0.025", change: "+1.67%", volume: "$2M", mcap: "$9M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Hubble Protocol", symbol: "HBB", price: "$0.018", change: "-0.56%", volume: "$1.2M", mcap: "$6M", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Lido", symbol: "LDO", price: "$1.85", change: "+4.23%", volume: "$180M", mcap: "$1.8B", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Samo", symbol: "SAMO", price: "$0.0058", change: "+8.91%", volume: "$8M", mcap: "$45M", positive: true, trending: true, category: "Memes", watchlisted: false },
+  { name: "Cope", symbol: "COPE", price: "$0.045", change: "+5.34%", volume: "$3.5M", mcap: "$15M", positive: true, trending: false, category: "Memes", watchlisted: false },
+  { name: "Ninja Protocol", symbol: "NINJA", price: "$0.012", change: "+14.56%", volume: "$4.2M", mcap: "$12M", positive: true, trending: true, category: "Gaming", watchlisted: false },
+];
+
+export const getTokenBySymbol = (symbol: string) => {
+  return tokenData.find(token => token.symbol.toUpperCase() === symbol.toUpperCase());
+};

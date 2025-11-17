@@ -5,22 +5,22 @@ const features = [
   {
     icon: Zap,
     title: "Order Execution Engine",
-    description: "Trade with confidence.",
+    description: "Lightning-fast order execution in ≤1 block with our proprietary colocated infrastructure. Experience sub-second fills and zero slippage on limit orders.",
   },
   {
     icon: Target,
     title: "Wallet and Twitter Tracker",
-    description: "Trade and track all in one place.",
+    description: "Monitor whale wallets and influencer portfolios in real-time. Get instant alerts on large transfers and copy successful trading strategies.",
   },
   {
     icon: Shield,
     title: "Hyperliquid Perpetuals",
-    description: "Trade leveraged Perps.",
+    description: "Access deep liquidity perpetual futures with up to 20x leverage. Trade BTC, ETH, SOL and more with zero gas fees and instant settlements.",
   },
   {
     icon: Sparkles,
     title: "Yield",
-    description: "Earn while you sleep.",
+    description: "Earn up to 120% APR on your crypto assets through our optimized yield strategies. Powered by MarginFi with instant withdrawals and auto-compounding.",
   },
 ];
 
@@ -49,10 +49,10 @@ export const Features = () => {
               <div className="bg-primary/10 w-14 h-14 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                 <feature.icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-foreground">
+              <h3 className="text-lg font-semibold mb-3 text-foreground">
                 {feature.title}
               </h3>
-              <p className="text-muted-foreground">{feature.description}</p>
+              <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
             </Card>
           ))}
         </div>

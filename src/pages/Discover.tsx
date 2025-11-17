@@ -4,36 +4,119 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, Search, Star, Flame } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TrendingUp, TrendingDown, Search, Star, Flame, Eye, BarChart3, Sparkles, Filter, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, Activity, DollarSign, TrendingUpIcon } from "lucide-react";
 import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const tokens = [
-  { name: "Solana", symbol: "SOL", price: "$142.35", change: "+5.23%", volume: "$1.2B", mcap: "$65B", positive: true, trending: true, category: "L1" },
-  { name: "Bonk", symbol: "BONK", price: "$0.000023", change: "+12.34%", volume: "$45M", mcap: "$1.5B", positive: true, trending: true, category: "Memes" },
-  { name: "Jupiter", symbol: "JUP", price: "$0.85", change: "+8.45%", volume: "$120M", mcap: "$850M", positive: true, trending: false, category: "DeFi" },
-  { name: "Pyth Network", symbol: "PYTH", price: "$0.42", change: "-2.15%", volume: "$80M", mcap: "$1.1B", positive: false, trending: false, category: "DeFi" },
-  { name: "Jito", symbol: "JTO", price: "$2.15", change: "+15.67%", volume: "$95M", mcap: "$2.3B", positive: true, trending: true, category: "DeFi" },
-  { name: "Render", symbol: "RNDR", price: "$8.45", change: "-1.23%", volume: "$200M", mcap: "$3.2B", positive: false, trending: false, category: "AI" },
-  { name: "Helium", symbol: "HNT", price: "$4.32", change: "+3.45%", volume: "$65M", mcap: "$750M", positive: true, trending: false, category: "Infrastructure" },
-  { name: "Raydium", symbol: "RAY", price: "$1.87", change: "+6.78%", volume: "$150M", mcap: "$450M", positive: true, trending: true, category: "DeFi" },
-  { name: "Orca", symbol: "ORCA", price: "$3.24", change: "+4.12%", volume: "$35M", mcap: "$280M", positive: true, trending: false, category: "DeFi" },
-  { name: "Marinade", symbol: "MNDE", price: "$0.18", change: "-0.85%", volume: "$12M", mcap: "$45M", positive: false, trending: false, category: "DeFi" },
+  { name: "Solana", symbol: "SOL", price: "$142.35", change: "+5.23%", volume: "$1.2B", mcap: "$65B", positive: true, trending: true, category: "L1", watchlisted: false },
+  { name: "Bonk", symbol: "BONK", price: "$0.000023", change: "+12.34%", volume: "$45M", mcap: "$1.5B", positive: true, trending: true, category: "Memes", watchlisted: true },
+  { name: "Jupiter", symbol: "JUP", price: "$0.85", change: "+8.45%", volume: "$120M", mcap: "$850M", positive: true, trending: true, category: "DeFi", watchlisted: true },
+  { name: "Pyth Network", symbol: "PYTH", price: "$0.42", change: "-2.15%", volume: "$80M", mcap: "$1.1B", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Jito", symbol: "JTO", price: "$2.15", change: "+15.67%", volume: "$95M", mcap: "$2.3B", positive: true, trending: true, category: "DeFi", watchlisted: true },
+  { name: "Render", symbol: "RNDR", price: "$8.45", change: "-1.23%", volume: "$200M", mcap: "$3.2B", positive: false, trending: false, category: "AI", watchlisted: false },
+  { name: "Helium", symbol: "HNT", price: "$4.32", change: "+3.45%", volume: "$65M", mcap: "$750M", positive: true, trending: false, category: "Infrastructure", watchlisted: false },
+  { name: "Raydium", symbol: "RAY", price: "$1.87", change: "+6.78%", volume: "$150M", mcap: "$450M", positive: true, trending: true, category: "DeFi", watchlisted: true },
+  { name: "Orca", symbol: "ORCA", price: "$3.24", change: "+4.12%", volume: "$35M", mcap: "$280M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Marinade", symbol: "MNDE", price: "$0.18", change: "-0.85%", volume: "$12M", mcap: "$45M", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "WormHole", symbol: "W", price: "$0.35", change: "+2.34%", volume: "$28M", mcap: "$420M", positive: true, trending: false, category: "Infrastructure", watchlisted: false },
+  { name: "Kamino", symbol: "KMNO", price: "$0.12", change: "+9.12%", volume: "$18M", mcap: "$180M", positive: true, trending: true, category: "DeFi", watchlisted: false },
+  { name: "Tensor", symbol: "TNSR", price: "$0.65", change: "-3.45%", volume: "$42M", mcap: "$325M", positive: false, trending: false, category: "NFTs", watchlisted: false },
+  { name: "Drift Protocol", symbol: "DRIFT", price: "$0.28", change: "+5.67%", volume: "$15M", mcap: "$98M", positive: true, trending: false, category: "DeFi", watchlisted: true },
+  { name: "Magic Eden", symbol: "ME", price: "$0.45", change: "+1.23%", volume: "$22M", mcap: "$215M", positive: true, trending: false, category: "NFTs", watchlisted: false },
+  { name: "Parcl", symbol: "PRCL", price: "$0.38", change: "+7.89%", volume: "$9M", mcap: "$75M", positive: true, trending: true, category: "DeFi", watchlisted: false },
+  { name: "Grass", symbol: "GRASS", price: "$0.015", change: "+18.45%", volume: "$32M", mcap: "$125M", positive: true, trending: true, category: "AI", watchlisted: false },
+  { name: "Sanctum", symbol: "CLOUD", price: "$0.22", change: "+4.56%", volume: "$11M", mcap: "$68M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Marginfi", symbol: "MRGN", price: "$0.08", change: "-1.12%", volume: "$7M", mcap: "$42M", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Zeta Markets", symbol: "ZETA", price: "$0.19", change: "+3.21%", volume: "$13M", mcap: "$55M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Phoenix", symbol: "PHNX", price: "$0.05", change: "+11.23%", volume: "$6M", mcap: "$28M", positive: true, trending: true, category: "DeFi", watchlisted: false },
+  { name: "Audius", symbol: "AUDIO", price: "$0.16", change: "-2.34%", volume: "$19M", mcap: "$145M", positive: false, trending: false, category: "Entertainment", watchlisted: false },
+  { name: "Star Atlas", symbol: "ATLAS", price: "$0.0042", change: "+6.78%", volume: "$4M", mcap: "$38M", positive: true, trending: false, category: "Gaming", watchlisted: false },
+  { name: "Genopets", symbol: "GENE", price: "$0.09", change: "-0.45%", volume: "$2.5M", mcap: "$22M", positive: false, trending: false, category: "Gaming", watchlisted: false },
+  { name: "Step Finance", symbol: "STEP", price: "$0.03", change: "+2.11%", volume: "$3M", mcap: "$12M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Saber", symbol: "SBR", price: "$0.002", change: "-1.89%", volume: "$1.8M", mcap: "$8M", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Solend", symbol: "SLND", price: "$0.14", change: "+3.45%", volume: "$5M", mcap: "$18M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Port Finance", symbol: "PORT", price: "$0.025", change: "+1.67%", volume: "$2M", mcap: "$9M", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Hubble Protocol", symbol: "HBB", price: "$0.018", change: "-0.56%", volume: "$1.2M", mcap: "$6M", positive: false, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Lido", symbol: "LDO", price: "$1.85", change: "+4.23%", volume: "$180M", mcap: "$1.8B", positive: true, trending: false, category: "DeFi", watchlisted: false },
+  { name: "Samo", symbol: "SAMO", price: "$0.0058", change: "+8.91%", volume: "$8M", mcap: "$45M", positive: true, trending: true, category: "Memes", watchlisted: false },
+  { name: "Cope", symbol: "COPE", price: "$0.045", change: "+5.34%", volume: "$3.5M", mcap: "$15M", positive: true, trending: false, category: "Memes", watchlisted: false },
+  { name: "Ninja Protocol", symbol: "NINJA", price: "$0.012", change: "+14.56%", volume: "$4.2M", mcap: "$12M", positive: true, trending: true, category: "Gaming", watchlisted: false },
 ];
 
-const categories = ["All", "Trending", "DeFi", "Gaming", "NFTs", "Memes", "AI", "Infrastructure"];
+const marketStats = [
+  { label: "Total Market Cap", value: "$85.2B", change: "+3.45%", positive: true, icon: DollarSign },
+  { label: "24h Volume", value: "$3.8B", change: "+12.34%", positive: true, icon: Activity },
+  { label: "Active Tokens", value: "450+", change: "+8", positive: true, icon: BarChart3 },
+  { label: "Top Gainer", value: "+18.45%", change: "GRASS", positive: true, icon: TrendingUpIcon },
+];
+
+const categories = ["All", "Trending", "DeFi", "Gaming", "NFTs", "Memes", "AI", "Infrastructure", "Entertainment"];
 
 const Discover = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [sortBy, setSortBy] = useState<"marketCap" | "volume" | "change" | "price">("marketCap");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [watchlist, setWatchlist] = useState<string[]>(
+    tokens.filter(t => t.watchlisted).map(t => t.symbol)
+  );
 
-  const filteredTokens = tokens.filter(token => {
-    const matchesSearch = token.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         token.symbol.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = activeCategory === "All" || 
-                           (activeCategory === "Trending" && token.trending) ||
-                           token.category === activeCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const toggleWatchlist = (symbol: string) => {
+    setWatchlist(prev =>
+      prev.includes(symbol)
+        ? prev.filter(s => s !== symbol)
+        : [...prev, symbol]
+    );
+  };
+
+  const parseValue = (value: string): number => {
+    const cleaned = value.replace(/[^0-9.]/g, '');
+    const multiplier = value.includes('B') ? 1e9 : value.includes('M') ? 1e6 : 1;
+    return parseFloat(cleaned) * multiplier;
+  };
+
+  const filteredTokens = tokens
+    .filter(token => {
+      const matchesSearch = token.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                           token.symbol.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = activeCategory === "All" || 
+                             (activeCategory === "Trending" && token.trending) ||
+                             token.category === activeCategory;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      let comparison = 0;
+      switch (sortBy) {
+        case "marketCap":
+          comparison = parseValue(a.mcap) - parseValue(b.mcap);
+          break;
+        case "volume":
+          comparison = parseValue(a.volume) - parseValue(b.volume);
+          break;
+        case "change":
+          comparison = parseFloat(a.change) - parseFloat(b.change);
+          break;
+        case "price":
+          comparison = parseValue(a.price) - parseValue(b.price);
+          break;
+      }
+      return sortOrder === "desc" ? -comparison : comparison;
+    });
+
+  const watchlistedTokens = tokens.filter(token => watchlist.includes(token.symbol));
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,33 +124,96 @@ const Discover = () => {
       
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">
-          <div className="mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              <span className="text-primary">Discover</span> Tokens
+          {/* Hero Section */}
+          <div className="mb-12 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4 text-sm font-medium">
+              <Sparkles className="w-4 h-4" />
+              Real-time Market Data
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+              Discover Solana Tokens
             </h1>
-            <p className="text-xl text-muted-foreground">
-              Explore the hottest tokens on Solana
+            <p className="text-xl text-muted-foreground max-w-2xl">
+              Explore and track 30+ tokens on Solana with real-time data, advanced filtering, and comprehensive analytics
             </p>
           </div>
 
-          <div className="mb-8">
-            <div className="relative max-w-2xl">
+          {/* Market Stats */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            {marketStats.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <Card key={index} className="p-6 hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50 group relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-sm text-muted-foreground font-medium">{stat.label}</p>
+                      <Icon className="w-5 h-5 text-primary opacity-50" />
+                    </div>
+                    <p className="text-3xl font-bold mb-2">{stat.value}</p>
+                    <div className="flex items-center gap-1">
+                      {stat.positive ? (
+                        <TrendingUp className="w-4 h-4 text-green-500" />
+                      ) : (
+                        <TrendingDown className="w-4 h-4 text-red-500" />
+                      )}
+                      <p className={`text-sm font-semibold ${stat.positive ? 'text-green-500' : 'text-red-500'}`}>
+                        {stat.change}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+
+          {/* Search and Filter Bar */}
+          <div className="mb-6 flex flex-col md:flex-row gap-4">
+            <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
                 placeholder="Search tokens by name or symbol..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 bg-card border-border h-14 text-lg"
+                className="pl-12 bg-card border-2 border-border focus:border-primary h-12 text-base transition-colors"
               />
+            </div>
+            <div className="flex gap-2">
+              <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+                <SelectTrigger className="w-[180px] h-12 border-2">
+                  <Filter className="w-4 h-4 mr-2" />
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="marketCap">Market Cap</SelectItem>
+                  <SelectItem value="volume">Volume</SelectItem>
+                  <SelectItem value="change">24h Change</SelectItem>
+                  <SelectItem value="price">Price</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-12 w-12 border-2"
+                onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+              >
+                {sortOrder === "desc" ? <ArrowDown className="w-5 h-5" /> : <ArrowUp className="w-5 h-5" />}
+              </Button>
             </div>
           </div>
 
-          <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
+          {/* Category Filter Pills */}
+          <div className="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
             {categories.map((category) => (
               <Button
                 key={category}
                 variant={activeCategory === category ? "default" : "outline"}
-                className="rounded-full whitespace-nowrap"
+                className={`rounded-full whitespace-nowrap transition-all ${
+                  activeCategory === category 
+                    ? "shadow-lg shadow-primary/50" 
+                    : "hover:border-primary/50"
+                }`}
+                size="sm"
                 onClick={() => setActiveCategory(category)}
               >
                 {category === "Trending" && <Flame className="w-4 h-4 mr-2" />}
@@ -76,85 +222,212 @@ const Discover = () => {
             ))}
           </div>
 
-          <Card className="bg-card border-border overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-muted/20">
-                  <tr>
-                    <th className="text-left p-4 font-semibold text-sm text-muted-foreground">#</th>
-                    <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Token</th>
-                    <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Price</th>
-                    <th className="text-left p-4 font-semibold text-sm text-muted-foreground">24h Change</th>
-                    <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Volume</th>
-                    <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Market Cap</th>
-                    <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Category</th>
-                    <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredTokens.length > 0 ? (
-                    filteredTokens.map((token, index) => (
-                      <tr
-                        key={index}
-                        className="border-t border-border hover:bg-muted/10 transition-colors"
-                      >
-                        <td className="p-4">
-                          <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground">{index + 1}</span>
-                            {token.trending && <Flame className="w-4 h-4 text-orange-500" />}
-                          </div>
-                        </td>
-                        <td className="p-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                              <span className="text-sm font-bold text-primary">{token.symbol[0]}</span>
-                            </div>
-                            <div>
-                              <p className="font-semibold">{token.name}</p>
-                              <p className="text-sm text-muted-foreground">{token.symbol}</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="p-4 font-semibold">{token.price}</td>
-                        <td className="p-4">
-                          <div
-                            className={`flex items-center gap-1 ${
-                              token.positive ? "text-green-500" : "text-red-500"
-                            }`}
-                          >
-                            {token.positive ? (
-                              <TrendingUp className="w-4 h-4" />
-                            ) : (
-                              <TrendingDown className="w-4 h-4" />
-                            )}
-                            <span className="font-semibold">{token.change}</span>
-                          </div>
-                        </td>
-                        <td className="p-4 text-muted-foreground">{token.volume}</td>
-                        <td className="p-4 text-muted-foreground">{token.mcap}</td>
-                        <td className="p-4">
-                          <Badge variant="secondary" className="rounded-full">
-                            {token.category}
-                          </Badge>
-                        </td>
-                        <td className="p-4">
-                          <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full">
-                            Trade
-                          </Button>
-                        </td>
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList className="mb-6 bg-muted/50 p-1 h-12">
+              <TabsTrigger value="all" className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-md">
+                <BarChart3 className="w-4 h-4" />
+                All Tokens 
+                <Badge variant="secondary" className="ml-1">{filteredTokens.length}</Badge>
+              </TabsTrigger>
+              <TabsTrigger value="watchlist" className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-md">
+                <Eye className="w-4 h-4" />
+                Watchlist 
+                <Badge variant="secondary" className="ml-1">{watchlistedTokens.length}</Badge>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="all">
+              <Card className="bg-card border-2 border-border overflow-hidden shadow-lg">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-muted/30 backdrop-blur-sm">
+                      <tr>
+                        <th className="text-left p-4 font-semibold text-sm text-muted-foreground">#</th>
+                        <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Token</th>
+                        <th className="text-right p-4 font-semibold text-sm text-muted-foreground">Price</th>
+                        <th className="text-right p-4 font-semibold text-sm text-muted-foreground">24h Change</th>
+                        <th className="text-right p-4 font-semibold text-sm text-muted-foreground">Volume</th>
+                        <th className="text-right p-4 font-semibold text-sm text-muted-foreground">Market Cap</th>
+                        <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Category</th>
+                        <th className="text-center p-4 font-semibold text-sm text-muted-foreground">Action</th>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={8} className="p-8 text-center text-muted-foreground">
-                        No tokens found matching your search.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </Card>
+                    </thead>
+                    <tbody>
+                      {filteredTokens.length > 0 ? (
+                        filteredTokens.map((token, index) => (
+                          <tr
+                            key={index}
+                            className="border-t border-border hover:bg-muted/20 transition-all duration-200 group"
+                          >
+                            <td className="p-4">
+                              <div className="flex items-center gap-2">
+                                <span className="text-muted-foreground font-medium">{index + 1}</span>
+                                {token.trending && (
+                                  <Tooltip>
+                                    <TooltipTrigger>
+                                      <Flame className="w-4 h-4 text-orange-500 animate-pulse" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p>Trending</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                )}
+                              </div>
+                            </td>
+                            <td className="p-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full flex items-center justify-center border-2 border-primary/20 group-hover:border-primary/40 transition-colors">
+                                  <span className="text-sm font-bold text-primary">{token.symbol.substring(0, 2)}</span>
+                                </div>
+                                <div>
+                                  <p className="font-semibold text-base group-hover:text-primary transition-colors">{token.name}</p>
+                                  <p className="text-sm text-muted-foreground">{token.symbol}</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="p-4 font-bold text-right text-base">{token.price}</td>
+                            <td className="p-4 text-right">
+                              <div
+                                className={`flex items-center justify-end gap-1 font-semibold ${
+                                  token.positive ? "text-green-500" : "text-red-500"
+                                }`}
+                              >
+                                {token.positive ? (
+                                  <TrendingUp className="w-4 h-4" />
+                                ) : (
+                                  <TrendingDown className="w-4 h-4" />
+                                )}
+                                <span>{token.change}</span>
+                              </div>
+                            </td>
+                            <td className="p-4 text-muted-foreground text-right font-medium">{token.volume}</td>
+                            <td className="p-4 text-muted-foreground text-right font-medium">{token.mcap}</td>
+                            <td className="p-4">
+                              <Badge 
+                                variant="secondary" 
+                                className="rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
+                              >
+                                {token.category}
+                              </Badge>
+                            </td>
+                            <td className="p-4">
+                              <div className="flex items-center justify-center gap-2">
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <Button
+                                      size="sm"
+                                      variant={watchlist.includes(token.symbol) ? "default" : "outline"}
+                                      onClick={() => toggleWatchlist(token.symbol)}
+                                      className="rounded-full h-9 w-9 p-0"
+                                    >
+                                      <Star className={`w-4 h-4 ${watchlist.includes(token.symbol) ? "fill-current" : ""}`} />
+                                    </Button>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>{watchlist.includes(token.symbol) ? "Remove from" : "Add to"} watchlist</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                                <Button 
+                                  size="sm" 
+                                  className="bg-primary hover:bg-primary/90 rounded-full shadow-lg hover:shadow-primary/50 transition-all"
+                                >
+                                  Trade
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={8} className="p-12 text-center">
+                            <div className="flex flex-col items-center gap-4">
+                              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
+                                <Search className="w-8 h-8 text-muted-foreground" />
+                              </div>
+                              <div>
+                                <h3 className="text-lg font-semibold mb-1">No tokens found</h3>
+                                <p className="text-muted-foreground">Try adjusting your search or filters</p>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="watchlist">
+              <Card className="bg-card border-border overflow-hidden">
+                {watchlistedTokens.length > 0 ? (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-muted/20">
+                        <tr>
+                          <th className="text-left p-4 font-semibold text-sm text-muted-foreground">Token</th>
+                          <th className="text-right p-4 font-semibold text-sm text-muted-foreground">Price</th>
+                          <th className="text-right p-4 font-semibold text-sm text-muted-foreground">24h Change</th>
+                          <th className="text-right p-4 font-semibold text-sm text-muted-foreground">Market Cap</th>
+                          <th className="text-center p-4 font-semibold text-sm text-muted-foreground">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {watchlistedTokens.map((token, index) => (
+                          <tr
+                            key={index}
+                            className="border-t border-border hover:bg-muted/10 transition-colors"
+                          >
+                            <td className="p-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                                  <span className="text-sm font-bold text-primary">{token.symbol.substring(0, 2)}</span>
+                                </div>
+                                <div>
+                                  <p className="font-semibold">{token.name}</p>
+                                  <p className="text-sm text-muted-foreground">{token.symbol}</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="p-4 font-semibold text-right">{token.price}</td>
+                            <td className="p-4 text-right">
+                              <span className={token.positive ? "text-green-500" : "text-red-500"}>
+                                {token.change}
+                              </span>
+                            </td>
+                            <td className="p-4 text-muted-foreground text-right">{token.mcap}</td>
+                            <td className="p-4">
+                              <div className="flex items-center justify-center gap-2">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => toggleWatchlist(token.symbol)}
+                                  className="rounded-full"
+                                >
+                                  <Star className="w-4 h-4 fill-current" />
+                                </Button>
+                                <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full">
+                                  Trade
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="p-12 text-center">
+                    <Sparkles className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-2">Your Watchlist is Empty</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Click the star icon on any token to add it to your watchlist
+                    </p>
+                  </div>
+                )}
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
 
