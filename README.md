@@ -1,64 +1,74 @@
-# Welcome to your Lovable project
+# Solana Discover - Axiom Trading Platform
 
-## Project info
+A modern, full-stack Solana trading platform with real-time price feeds, analytics, staking, and governance features.
 
-**URL**: https://lovable.dev/projects/b3b5e092-140c-4313-9941-32ddd08e1382
+## Quick Start
 
-## How can I edit this code?
+### Prerequisites
+- Node.js & npm - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/b3b5e092-140c-4313-9941-32ddd08e1382) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Installation
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone https://github.com/Mohitsagar236/solana-discover-mirror.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd solana-discover-mirror
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install frontend dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Install backend dependencies
+cd server
+npm install
+cd ..
+```
+
+### Development
+
+Run both frontend and backend with one command:
+
+```powershell
+# Windows PowerShell
+.\start.ps1
+```
+
+Or run them separately:
+
+```sh
+# Terminal 1 - Backend (from server/ directory)
+cd server
+npm run dev
+
+# Terminal 2 - Frontend (from root directory)
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at:
+- Frontend: http://localhost:8080 (or 5173)
+- Backend API: http://localhost:3001
+- WebSocket: ws://localhost:3002
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Tech Stack
 
-**Use GitHub Codespaces**
+### Frontend
+- **Vite** - Build tool and dev server
+- **React 18** - UI framework
+- **TypeScript** - Type safety
+- **TailwindCSS** - Styling
+- **shadcn/ui** - Component library
+- **React Router** - Navigation
+- **Recharts** - Data visualization
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Backend
+- **Express.js** - Web framework
+- **WebSocket (ws)** - Real-time communication
+- **@solana/web3.js** - Solana blockchain integration
+- **Axios** - HTTP client for external APIs
+- **node-cache** - In-memory caching
+- **Helmet** - Security middleware
+- **Compression** - Response compression
 
 ## Deployment (Vercel + External Backend)
 
@@ -73,8 +83,8 @@ This repository now includes a `vercel.json` for deploying the frontend (Vite + 
 3. Build Command: `npm run build`
 4. Output Directory: `dist`
 5. Set Environment Variables (Project Settings → Environment Variables):
-	 * `VITE_API_URL` = `https://YOUR-BACKEND-DOMAIN/api`
-	 * `VITE_WS_URL` = `wss://YOUR-WEBSOCKET-DOMAIN`
+   * `VITE_API_URL` = `https://YOUR-BACKEND-DOMAIN/api`
+   * `VITE_WS_URL` = `wss://YOUR-WEBSOCKET-DOMAIN`
 
 ### 2. Backend Deployment (Express + WS)
 Deploy the `server/` folder separately:
@@ -155,14 +165,6 @@ Add a domain in Vercel → Domains. Point DNS (CNAME) to Vercel. Update `VITE_AP
 ---
 For a pure Vercel solution without external servers, replace WebSocket with Server-Sent Events or a polling strategy and migrate routes into `/api` serverless functions.
 
-## Can I connect a custom domain?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
-
 ## Vercel Quick Reference
 ```
 Build Command: npm run build
@@ -172,3 +174,27 @@ Framework Preset: Vite
 ```
 
 Set env vars before first deploy to avoid 404s for API calls.
+
+## Features
+
+- **Token Discovery**: Browse 30+ Solana tokens with live prices
+- **Real-time Updates**: WebSocket integration for live market data
+- **Analytics Dashboard**: Market stats, volume, and trending tokens
+- **Trading Interface**: Order book, recent trades, and trading pairs
+- **Staking Pools**: Flexible and locked staking options with APR tracking
+- **Yield Farming**: Auto-compounding pools with reward tracking
+- **Governance**: DAO proposals and voting system
+- **Portfolio Management**: Track holdings and performance
+- **Wallet Integration**: Connect and manage Solana wallets
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+MIT License - feel free to use this project for personal or commercial purposes.
